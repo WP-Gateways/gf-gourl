@@ -11,9 +11,9 @@ class GFGoUrl extends GFPaymentAddOn {
 	protected $_slug = 'gravityforms_gourl';
 	protected $_path = 'gravityforms-gourl/gourl.php';
 	protected $_full_path = __FILE__;
-	protected $_url = 'http://www.gravityforms.com';
-	protected $_title = 'Gravity Forms GoUrl Add-On';
-	protected $_short_title = 'GoUrl';
+	protected $_url = 'https://wpgateways.com/products/gourl-bitcoin-atcoin-gateway-gravity-forms/';
+	protected $_title = 'Gravity Forms GoUrl Bitcoin Altcoin Add-On';
+	protected $_short_title = 'GoUrl (BTC/Alts)';
 	protected $_supports_callbacks = false;
 	private $dev_key = 'DEV966GEA58DA77C78DF79G1625442002';
 	private $plugin_name = 'wpgw_gravityforms';
@@ -69,12 +69,18 @@ class GFGoUrl extends GFPaymentAddOn {
 		foreach( $gourl->payments() as $key => $value ) {
 			$currency_choices[] = array( 'id' => $value, 'label' => $value, 'value' => $key, );
 		}
+		
+		$users = array();
+		//print_r(get_users());
+		foreach( get_users() as $user ) {
+			$users[] = array( 'id' => $user->data->ID, 'label' => $user->data->user_login, 'value' => $user->data->user_login );
+		}
 
 		$fields = array(
 			array(
 				'name'          => 'gourlGatewayLng',
-				'label'         => esc_html__( 'Gateway Language', 'gf-gourl' ),
-				'tooltip'       => '<h6>' . esc_html__( 'Gateway Language', 'gf-gourl' ) . '</h6>' . esc_html__( 'Language in which to display the payment gateway.', 'gf-gourl' ),
+				'label'         => esc_html__( 'Payment Box Language', 'gf-gourl' ),
+				'tooltip'       => '<h6>' . esc_html__( 'Payment Box Language', 'gf-gourl' ) . '</h6>' . esc_html__( 'Language in which to display the payment box.', 'gf-gourl' ),
 				'type'          => 'select',
 				'choices'       => array(
 					array( 'id' => 'english', 	 'label' => 'English',    'value' => 'en' ),
@@ -99,10 +105,17 @@ class GFGoUrl extends GFPaymentAddOn {
 			),
 			array(
 				'name'          => 'gourlCurrency',
-				'label'         => esc_html__( 'Default Currency', 'gf-gourl' ),
-				'tooltip'       => '<h6>' . esc_html__( 'Default Currency', 'gf-gourl' ) . '</h6>' . esc_html__( 'Select currency to be charged.', 'gf-gourl' ),
+				'label'         => esc_html__( 'Default Coin', 'gf-gourl' ),
+				'tooltip'       => '<h6>' . esc_html__( 'Default Coin', 'gf-gourl' ) . '</h6>' . esc_html__( 'Select the coin to display as the default option on the payment box. This only works if you do not have a cryptocurrency selected as your Gravity Forms currency option.', 'gf-gourl' ),
 				'type'          => 'select',
 				'choices'       => $currency_choices,
+			),
+			array(
+				'name'          => 'gourlUser',
+				'label'         => esc_html__( 'Default User', 'gf-gourl' ),
+				'tooltip'       => '<h6>' . esc_html__( 'Default User', 'gf-gourl' ) . '</h6>' . esc_html__( 'GoUrl requires a WordPress user account to be associated with a payment, so this option serves as a fall back if the payer is not logged into the website. Please create a new user account for the purspose and select here.', 'gf-gourl' ),
+				'type'          => 'select',
+				'choices'       => $users,
 			),
 		);
 		
@@ -139,7 +152,7 @@ class GFGoUrl extends GFPaymentAddOn {
 			$fields[] = $post_settings;
 		}
 
-		$default_settings = $this->add_field_after( 'billingInformation', $fields, $default_settings );
+		$default_settings = $this->add_field_before( 'conditionalLogic', $fields, $default_settings );
 		//-----------------------------------------------------------------------------------------
 
 		/**
@@ -451,25 +464,26 @@ class GFGoUrl extends GFPaymentAddOn {
 		
 	public function gourl_paymentbox( $form, $entry ) {
 		global $gourl;
+		$feed = $this->get_payment_feed( $entry );
 		$amount = gform_get_meta( $entry['id'], 'payment_amount' );
 		$currency = $entry['currency'];
+		$feed_currency = rgar( $feed['meta'], 'gourlCurrency' );
 		$cryptos = $gourl->coin_names();
 		//$amount_converted = convert_currency_live( $entry['currency'], 'BTC', $amount_native );
 		if( array_key_exists( $currency, $cryptos ) ) {
-			$coin = $cryptos[$currency];
+			$coin = rgar( $cryptos, $currency );
 		} elseif( $currency != 'USD' ) {
 			$amount = gourl_convert_currency( $currency, 'USD', $amount );
 			$currency = 'USD';
-			$coin = 'bitcoin';
+			$coin = rgar( $cryptos, $feed_currency );
 		} else {
-			$coin = 'bitcoin';
+			$coin = rgar( $cryptos, $feed_currency );
 		}
-		
-		$user_id = get_current_user_id();
-		$feed = $this->get_payment_feed( $entry );
+	
+		$user_id = is_user_logged_in() ? get_current_user_id() : rgar( $feed['meta'], 'gourlUser' );
 		$lang = $feed['meta']['gourlGatewayLng'];
 		$result = $gourl->cryptopayments( $this->plugin_name, $amount, $currency, $entry['id'], '1 DAY', $lang, $coin, $this->dev_key, $user_id, '60' );
-        //wp_mail( 'mohsinoffline@gmail.com', 'cryp', "$currency $amount : $coin " . print_r($result,1));
+        //wp_mail( 'cparate43@gmail.com', 'cryp', "{$this->plugin_name}, $amount, $currency, {$entry['id']}, '1 DAY', $lang, $coin, {$this->dev_key}, $user_id, '60' ");
 		if( isset( $result['is_paid'] ) && $result['is_paid'] ) {
             unset( $result["html_payment_box"] );
 			$this->log_debug( __METHOD__ . '(): Payment already received => ' . print_r( $result, true ) );

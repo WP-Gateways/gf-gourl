@@ -1,13 +1,13 @@
 <?php
 /*
 Plugin Name: Gravity Forms GoUrl Add-On
-Plugin URI: https://www.gravityforms.com
+Plugin URI:  https://wpgateways.com/products/gourl-bitcoin-atcoin-gateway-gravity-forms/
 Description: Integrates Gravity Forms with GoUrl Payments, enabling end users to purchase goods and services through Gravity Forms.
-Version: 2.9.1
+Version: 1.0.0
 Author: wpgateways
-Author URI: https://www.wpgateways.com
+Author URI: https://wpgateways.com
 License: GPL-2.0+
-Text Domain: gravityformsgourl
+Text Domain: gf-gourl
 Domain Path: /languages
 
 ------------------------------------------------------------------------
@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 
-define( 'GF_GOURL_VERSION', '2.9.1' );
+define( 'GF_GOURL_VERSION', '1.0.0' );
 
 add_action( 'gform_loaded', array( 'GF_GoUrl_Bootstrap', 'load' ), 5 );
 
