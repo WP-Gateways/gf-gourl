@@ -18,18 +18,21 @@ This plugin enables you to use the GoUrl.io payment gateway and accept bitcoin a
 
 [Gravity Forms](https://www.gravityforms.com/) is one of the oldest most advanced custom form plugins in the WordPress sphere. Powering over a million websites, Gravity Forms allows you to quickly and easily integrate with a variety of third party services with a fantastic collection of add-ons.
 
-Here's a list of what the plugin provides out of the box:
+Here's a list of what the plugin provides out of the box with the help of core GoUrl.io plugin:
 
-* **Easy Install**:Like all Pledged Plugins add-ons, this plugin installs with one click. After installing, you will have only a few fields to fill out before you are ready to accept credit cards on your store.
-* **Secure Credit Card Processing**: Securely process credit cards without redirecting your customers to the gateway website.
-* **Authorize Now, Capture Later**: Optionally choose only to authorize transactions, and capture at a later date.
-* **Restrict Card Types**: Optionally choose to restrict certain card types and the plugin will hide its icon and provide a proper error message on checkout.
-* **Gateway Receipts**: Optionally choose to send receipts from your Authorize.Net merchant account.
+* **Open Source**: 100% free Open Source plugin on [Bitbucket](https://bitbucket.org/gateways/gf-gourl).
+* **Secure Cryptocurrency Processing**: Securely process crypto coins without redirecting your customers to the gateway website. No need to worry about chargebacks.
+* **Multiple Coin Support**: Supports payments in Bitcoin, BitcoinCash, Litecoin, Dash, Dogecoin, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Peercoin, and MonetaryUnit.
+* **Easy Withdrawals**: Get crypto payments straight to your bitcoin/altcoin wallet addresses. Use your exchange wallet address for withdrawals and convert to fiat.
+* **Conditional Payments**: Supports conditional statements in Gravity Forms.
+* **Paid Posts**: Optionally lets you charge for posts by letting you publish them in Gravity Forms only after the payment is complete.
 * **Logging**: Enable logging so you can debug issues that arise if any.
 
-**Additional Information**
+**Requirements**
 -------
-A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
+* [Gravity Forms](https://www.gravityforms.com/) plugin 2.0 or later.
+* [GoUrl Core](https://wordpress.org/plugins/gourl-bitcoin-payment-gateway-paid-downloads-membership/) WordPress Plugin.
+* [GoUrl.io](https://gourl.io/) account with payment boxes setup.
 
 **Extend, Contribute, Integrate**
 -------
@@ -51,10 +54,9 @@ Disclaimer: This plugin is not affiliated with or supported by Gravity Forms, Go
 7. Now from under the "Form Settings" drop down menu above the form editor, select "GoUrl (BTC/Alts)" and click on "Add New".
 8. Select "Products and Services" as your transaction type, configure the payment box settings and select the field to pick the amount from.
 9. Click on "Update Settings". That's it! 
-10. You can use 500 free Speedcoins or Dogecoins for testing.
-Url: https://speedcoin.org/info/free_coins/Free_Speedcoins.html
+10. You can use 500 free Speedcoins or Dogecoins for testing. URL: https://speedcoin.org/info/free_coins/Free_Speedcoins.html
 
-That's it! You are ready to accept credit cards with your Authorize.Net payment gateway now connected to WooCommerce.
+You are ready to accept crypto payments using the GoUrl payment gateway now connected to Gravity Forms.
 
 
 == Changelog ==
