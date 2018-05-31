@@ -2,7 +2,7 @@
 Contributors: mohsinoffline
 Donate link: https://themebound.com/contact-us/send-payment/
 Tags: Gravity Forms bitcoin, bitcoin, altcoins, cryptocurrency, payment gateway, Gravity Forms, Gravity Forms payment gateway, payment forms, bitcoin cash, dash, litecoin
-Plugin URI: https://wpgateways.com/products/gourl-bitcoin-atcoin-gateway-gravity-forms/
+Plugin URI: https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravity-forms/
 Author URI: https://wpgateways.com
 Requires at least: 4.0
 Tested up to: 5.0
@@ -14,7 +14,7 @@ This plugin enables you to use the GoUrl.io payment gateway and accept bitcoin a
 
 == Description ==
 
-[GoUrl.io](https://gourl.io/) Payment Gateway allows you to accept cryptocurrency payments from all over the world on your websites and deposit funds automatically into your external wallets. They support 13 different cryptocurrencies including Bitcoin, Bitcoin Cash, Dash and Litecoin. You are required to install 
+[GoUrl.io](https://gourl.io/) Payment Gateway allows you to accept cryptocurrency payments from all over the world on your websites and deposit funds automatically into your external wallets. They support 13 different cryptocurrencies including Bitcoin, Bitcoin Cash, Dash and Litecoin.
 
 [Gravity Forms](https://www.gravityforms.com/) is one of the oldest most advanced custom form plugins in the WordPress sphere. Powering over a million websites, Gravity Forms allows you to quickly and easily integrate with a variety of third party services with a fantastic collection of add-ons.
 
@@ -37,11 +37,11 @@ Here's a list of what the plugin provides out of the box with the help of core G
 **Extend, Contribute, Integrate**
 -------
 
-Visit the [plugin page](https://wpgateways.com/products/gourl-bitcoin-atcoin-gateway-gravity-forms/) for more details. Contributors are welcome to send pull requests via [Bitbucket repository](https://bitbucket.org/gateways/gf-gourl/).
+Visit the [plugin page](https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravity-forms/) for more details. Contributors are welcome to send pull requests via [Bitbucket repository](https://bitbucket.org/gateways/gf-gourl/).
 
 For custom integration with your WordPress website, please [contact us here](https://wpgateways.com/support/custom-payment-gateway-integration/).
 
-Disclaimer: This plugin is not affiliated with or supported by Gravity Forms, GoUrl.io or any cryptocurrency developer or founder team. All logos and trademarks are the property of their respective owners. 
+Disclaimer: This plugin is not affiliated with or supported by Gravity Forms, GoUrl.io or any cryptocurrency developer or founder team. All logos and trademarks are the property of their respective owners.
 
 == Installation ==
 
