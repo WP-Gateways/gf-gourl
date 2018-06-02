@@ -1,0 +1,169 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Gravity Forms GoUrl Add-On\n"
+"POT-Creation-Date: 2018-05-31 17:34+0530\n"
+"PO-Revision-Date: 2018-05-31 17:34+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: gourl.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: class-gf-gourl.php:55
+#, php-format
+msgid ""
+"Please install and activate WordPress plugin %sGoUrl Bitcoin Gateway%s to "
+"accept Bitcoin/Altcoin Payments on your website"
+msgstr ""
+
+#: class-gf-gourl.php:81 class-gf-gourl.php:82
+msgid "Payment Box Language"
+msgstr ""
+
+#: class-gf-gourl.php:82
+msgid "Language in which to display the payment box."
+msgstr ""
+
+#: class-gf-gourl.php:107 class-gf-gourl.php:108
+msgid "Default Coin"
+msgstr ""
+
+#: class-gf-gourl.php:108
+msgid ""
+"Select the coin to display as the default option on the payment box. This "
+"only works if you do not have a cryptocurrency selected as your Gravity "
+"Forms currency option."
+msgstr ""
+
+#: class-gf-gourl.php:114 class-gf-gourl.php:115
+msgid "Default User"
+msgstr ""
+
+#: class-gf-gourl.php:115
+msgid ""
+"GoUrl requires a WordPress user account to be associated with a payment, so "
+"this option serves as a fall back if the payer is not logged into the "
+"website. Please create a new user account for the purspose and select here."
+msgstr ""
+
+#: class-gf-gourl.php:143 class-gf-gourl.php:145
+msgid "Posts"
+msgstr ""
+
+#: class-gf-gourl.php:145
+msgid ""
+"Enable this option if you would like to only create the post after payment "
+"has been received."
+msgstr ""
+
+#: class-gf-gourl.php:147
+msgid "Create post only when payment is received."
+msgstr ""
+
+#: class-gf-gourl.php:167
+msgid "GoUrl Field"
+msgstr ""
+
+#: class-gf-gourl.php:221
+msgid ""
+"Send notifications for the 'Form is submitted' event only when payment is "
+"received."
+msgstr ""
+
+#: class-gf-gourl.php:304
+msgid "Mark Post as Draft"
+msgstr ""
+
+#: class-gf-gourl.php:305
+msgid "Delete Post"
+msgstr ""
+
+#: class-gf-gourl.php:436
+#, php-format
+msgid "Amount: %s"
+msgstr ""
+
+#: class-gf-gourl.php:440
+msgid "Retry Payment"
+msgstr ""
+
+#: class-gf-gourl.php:441
+msgid "Cancel"
+msgstr ""
+
+#: class-gf-gourl.php:662
+#, php-format
+msgid "This webhook has already been processed (Event Id: %s)"
+msgstr ""
+
+#: class-gf-gourl.php:784
+#, php-format
+msgid ""
+"Payment amount (%s) does not match the request. Entry will not be marked as "
+"Approved. Transaction ID: %s"
+msgstr ""
+
+#: class-gf-gourl.php:803
+#, php-format
+msgid ""
+"Payment is pending. Amount: %s. Converted to: %s. Transaction ID: %s. "
+"Payment Link: %s."
+msgstr ""
+
+#: class-gf-gourl.php:883
+msgid "Payment Completed"
+msgstr ""
+
+#: class-gf-gourl.php:884
+msgid "Payment Refunded"
+msgstr ""
+
+#: class-gf-gourl.php:885
+msgid "Payment Failed"
+msgstr ""
+
+#: class-gf-gourl.php:886
+msgid "Payment Pending"
+msgstr ""
+
+#: class-gf-gourl.php:1007
+#, php-format
+msgid ""
+"Payment information was manually updated. Status: %s. Amount: %s. "
+"Transaction ID: %s. Date: %s"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Gravity Forms GoUrl Add-On"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid ""
+"https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravity-forms/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Integrates Gravity Forms with GoUrl Payments, enabling end users to purchase "
+"goods and services through Gravity Forms."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "wpgateways"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://wpgateways.com"
+msgstr ""

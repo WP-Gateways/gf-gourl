@@ -11,9 +11,9 @@ class GFGoUrl extends GFPaymentAddOn {
 	protected $_slug = 'gravityforms_gourl';
 	protected $_path = 'gravityforms-gourl/gourl.php';
 	protected $_full_path = __FILE__;
-	protected $_url = 'http://www.gravityforms.com';
-	protected $_title = 'Gravity Forms GoUrl Add-On';
-	protected $_short_title = 'GoUrl';
+	protected $_url = 'https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravity-forms/';
+	protected $_title = 'Gravity Forms GoUrl Bitcoin Altcoin Add-On';
+	protected $_short_title = 'GoUrl (BTC/Alts)';
 	protected $_supports_callbacks = false;
 	private $dev_key = 'DEV966GEA58DA77C78DF79G1625442002';
 	private $plugin_name = 'wpgw_gravityforms';
@@ -49,7 +49,6 @@ class GFGoUrl extends GFPaymentAddOn {
 		add_filter( 'gform_disable_notification', array( $this, 'delay_notification' ), 10, 4 );
 	}
 
-
 	public function feed_list_no_item_message() {
 		global $gourl;
 		if( !class_exists( 'gourlclass' ) || !defined( 'GOURL' ) || !is_object( $gourl ) ) {
@@ -61,20 +60,26 @@ class GFGoUrl extends GFPaymentAddOn {
 
 	public function feed_settings_fields() {
 		global $gourl;
-		
+
 		$default_settings = parent::feed_settings_fields();
 		$default_settings = parent::remove_field( 'billingInformation', $default_settings );
-		
+
 		$currency_choices = array();
 		foreach( $gourl->payments() as $key => $value ) {
 			$currency_choices[] = array( 'id' => $value, 'label' => $value, 'value' => $key, );
 		}
 
+		$users = array();
+
+		foreach( get_users() as $user ) {
+			$users[] = array( 'id' => $user->data->ID, 'label' => $user->data->user_login, 'value' => $user->data->user_login );
+		}
+
 		$fields = array(
 			array(
 				'name'          => 'gourlGatewayLng',
-				'label'         => esc_html__( 'Gateway Language', 'gf-gourl' ),
-				'tooltip'       => '<h6>' . esc_html__( 'Gateway Language', 'gf-gourl' ) . '</h6>' . esc_html__( 'Language in which to display the payment gateway.', 'gf-gourl' ),
+				'label'         => esc_html__( 'Payment Box Language', 'gf-gourl' ),
+				'tooltip'       => '<h6>' . esc_html__( 'Payment Box Language', 'gf-gourl' ) . '</h6>' . esc_html__( 'Language in which to display the payment box.', 'gf-gourl' ),
 				'type'          => 'select',
 				'choices'       => array(
 					array( 'id' => 'english', 	 'label' => 'English',    'value' => 'en' ),
@@ -99,13 +104,20 @@ class GFGoUrl extends GFPaymentAddOn {
 			),
 			array(
 				'name'          => 'gourlCurrency',
-				'label'         => esc_html__( 'Default Currency', 'gf-gourl' ),
-				'tooltip'       => '<h6>' . esc_html__( 'Default Currency', 'gf-gourl' ) . '</h6>' . esc_html__( 'Select currency to be charged.', 'gf-gourl' ),
+				'label'         => esc_html__( 'Default Coin', 'gf-gourl' ),
+				'tooltip'       => '<h6>' . esc_html__( 'Default Coin', 'gf-gourl' ) . '</h6>' . esc_html__( 'Select the coin to display as the default option on the payment box. This only works if you do not have a cryptocurrency selected as your Gravity Forms currency option.', 'gf-gourl' ),
 				'type'          => 'select',
 				'choices'       => $currency_choices,
 			),
+			array(
+				'name'          => 'gourlUser',
+				'label'         => esc_html__( 'Default User', 'gf-gourl' ),
+				'tooltip'       => '<h6>' . esc_html__( 'Default User', 'gf-gourl' ) . '</h6>' . esc_html__( 'GoUrl requires a WordPress user account to be associated with a payment, so this option serves as a fall back if the payer is not logged into the website. Please create a new user account for the purspose and select here.', 'gf-gourl' ),
+				'type'          => 'select',
+				'choices'       => $users,
+			),
 		);
-		
+
 		$default_settings = parent::add_field_after( 'feedName', $fields, $default_settings );
 
 		$transaction_type = parent::get_field( 'transactionType', $default_settings );
@@ -139,7 +151,7 @@ class GFGoUrl extends GFPaymentAddOn {
 			$fields[] = $post_settings;
 		}
 
-		$default_settings = $this->add_field_after( 'billingInformation', $fields, $default_settings );
+		$default_settings = $this->add_field_before( 'conditionalLogic', $fields, $default_settings );
 		//-----------------------------------------------------------------------------------------
 
 		/**
@@ -302,11 +314,10 @@ class GFGoUrl extends GFPaymentAddOn {
 
 	/**
 	 * Prevent the GFPaymentAddOn version of the options field being added to the feed settings.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function option_choices() {
-		
 		return false;
 	}
 
@@ -319,19 +330,18 @@ class GFGoUrl extends GFPaymentAddOn {
 		if ( ! rgempty( 'gf_gourl_return', $_GET ) ) {
 			return false;
 		}
-		
+
 		//Current Currency
 		$currency = rgar( $entry, 'currency' );
 		$payment_amount = rgar( $submission_data, 'payment_amount' );
 
 		//updating lead's payment_status to Processing
 		GFAPI::update_entry_property( $entry['id'], 'payment_status', 'Processing' );
-		
+
 		gform_update_meta( $entry['id'], 'payment_amount', $payment_amount );
 
 		$return_url = $this->return_url( $form['id'], $entry['id'] );
 
-		
 		if ( $payment_amount <= 0 ) {
 			$this->log_debug( __METHOD__ . '(): NOT sending to GoUrl: The price is either zero or the gform_gourl_query filter was used to remove the querystring that is sent to GoUrl.' );
 
@@ -384,7 +394,7 @@ class GFGoUrl extends GFPaymentAddOn {
 		if ( ! $instance->is_gravityforms_supported() ) {
 			return;
 		}
-		
+
 		if ( $str = rgget( 'gf_gourl_return' ) ) {
 
 			$str = base64_decode( $str );
@@ -400,19 +410,19 @@ class GFGoUrl extends GFPaymentAddOn {
 				list( $form_id, $lead_id ) = explode( '|', $query['ids'] );
 				$form = GFAPI::get_form( $form_id );
 				$entry = GFAPI::get_entry( $lead_id );
-				
+
 				if ( ! class_exists( 'GFFormDisplay' ) ) {
 					require_once( GFCommon::get_base_path() . '/form_display.php' );
 				}
 
 				$confirmation = $instance->gourl_paymentbox( $form, $entry );
-                
+
                 if ( is_wp_error( $confirmation ) ) {
 					$error = $instance->authorization_error( $confirmation->get_error_message() );
 				}
-				
+
 			}
-            
+
             if( $error ) {
 				$amount = rgpost( 'amount' );
 				$entry = GFAPI::get_entry( $lead_id );
@@ -437,7 +447,7 @@ class GFGoUrl extends GFPaymentAddOn {
 				GFFormDisplay::$submission[ $form_id ] = array( 'is_confirmation' => true, 'confirmation_message' => $confirmation, 'form' => $form, 'lead' => $entry );
 				return;
 			}
-            
+
             if ( is_array( $confirmation ) && isset( $confirmation['redirect'] ) ) {
                 header( "Location: {$confirmation['redirect']}" );
                 exit;
@@ -448,35 +458,36 @@ class GFGoUrl extends GFPaymentAddOn {
 		}
 
 	}
-		
+
 	public function gourl_paymentbox( $form, $entry ) {
 		global $gourl;
+		$feed = $this->get_payment_feed( $entry );
 		$amount = gform_get_meta( $entry['id'], 'payment_amount' );
 		$currency = $entry['currency'];
+		$feed_currency = rgar( $feed['meta'], 'gourlCurrency' );
 		$cryptos = $gourl->coin_names();
 		//$amount_converted = convert_currency_live( $entry['currency'], 'BTC', $amount_native );
 		if( array_key_exists( $currency, $cryptos ) ) {
-			$coin = $cryptos[$currency];
+			$coin = rgar( $cryptos, $currency );
 		} elseif( $currency != 'USD' ) {
 			$amount = gourl_convert_currency( $currency, 'USD', $amount );
 			$currency = 'USD';
-			$coin = 'bitcoin';
+			$coin = rgar( $cryptos, $feed_currency );
 		} else {
-			$coin = 'bitcoin';
+			$coin = rgar( $cryptos, $feed_currency );
 		}
-		
-		$user_id = get_current_user_id();
-		$feed = $this->get_payment_feed( $entry );
+
+		$user_id = is_user_logged_in() ? get_current_user_id() : rgar( $feed['meta'], 'gourlUser' );
 		$lang = $feed['meta']['gourlGatewayLng'];
 		$result = $gourl->cryptopayments( $this->plugin_name, $amount, $currency, $entry['id'], '1 DAY', $lang, $coin, $this->dev_key, $user_id, '60' );
-        //wp_mail( 'mohsinoffline@gmail.com', 'cryp', "$currency $amount : $coin " . print_r($result,1));
+
 		if( isset( $result['is_paid'] ) && $result['is_paid'] ) {
             unset( $result["html_payment_box"] );
 			$this->log_debug( __METHOD__ . '(): Payment already received => ' . print_r( $result, true ) );
 			$confirmation = GFFormDisplay::handle_confirmation( $form, $entry, false );
 		} elseif( isset( $result['error'] ) && $result['error'] ) {
 			$this->log_error( __METHOD__ . '(): Error from GoUrl paymentbox => ' . print_r( $result, true ) );
-            return new WP_Error( 'gourl_error', $result['error'] ); 
+            return new WP_Error( 'gourl_error', $result['error'] );
         } else {
 			$confirmation = $result["html_payment_box"];
 			unset( $result["html_payment_box"] );
@@ -513,7 +524,7 @@ class GFGoUrl extends GFPaymentAddOn {
 
 		return isset( $feed['meta']['delayNotification'] ) && in_array( $notification['id'], $selected_notifications ) ? true : $is_disabled;
 	}
-    
+
     public function init_callback( $user_id, $entry_id, $payment_details, $box_status ) {
 
 		// Ignoring requests that are not this addon's callbacks.
@@ -557,8 +568,6 @@ class GFGoUrl extends GFPaymentAddOn {
 		//die();
 	}
 
-
-
 	//------- PROCESSING GOURL IPN (Callback) -----------//
 
 	public function callback( $user_id, $entry_id, $payment_details, $box_status ) {
@@ -568,7 +577,6 @@ class GFGoUrl extends GFPaymentAddOn {
 		}
 
 		$this->log_debug( __METHOD__ . '(): IPN request received. Box Status: ' . $box_status . '. Starting to process => ' . print_r( $payment_details, true ) );
-
 
 		//------ Getting entry related to this IPN ----------------------------------------------//
 		$entry = GFAPI::get_entry( $entry_id );
@@ -587,7 +595,6 @@ class GFGoUrl extends GFPaymentAddOn {
 			return false;
 		}
 
-
 		//------ Getting feed related to this IPN ------------------------------------------//
 		$feed = $this->get_payment_feed( $entry );
 
@@ -598,7 +605,6 @@ class GFGoUrl extends GFPaymentAddOn {
 			return false;
 		}
 		$this->log_debug( __METHOD__ . "(): Form {$entry['form_id']} is properly configured." );
-
 
 		//----- Processing IPN ------------------------------------------------------------//
 		$this->log_debug( __METHOD__ . '(): Processing IPN...' );
@@ -634,7 +640,7 @@ class GFGoUrl extends GFPaymentAddOn {
 
 		return ! empty( $feed ) ? $feed : false;
 	}
-    
+
     private function gourl_process_callback_action( $action ) {
 		$this->log_debug( __METHOD__ . '(): Processing callback action.' );
 		$action = wp_parse_args(
@@ -757,7 +763,7 @@ class GFGoUrl extends GFPaymentAddOn {
 		$this->log_debug( __METHOD__ . "(): Box status: {$box_status} - Payment status: {$payment_details['status']} - Transaction ID: {$payment_details['tx']} - Coin name: {$payment_details['coinname']} - Amount: {$payment_details['amount']} - Payment address: {$payment_details['addr']} - Confirmation: {$payment_details['is_confirmed']}" );
 
 		$action = array();
-		
+
 		if( rgar( $payment_details, 'is_paid' ) ) {
 			switch ( strtolower( $box_status ) ) {
 				case 'cryptobox_updated' :
@@ -783,7 +789,7 @@ class GFGoUrl extends GFPaymentAddOn {
 
 						return $action;
 					}
-					
+
 					break;
 
 				case 'cryptobox_newrecord' :
@@ -801,8 +807,6 @@ class GFGoUrl extends GFPaymentAddOn {
 
 			}
 		}
-		
-		
 
 	}
 
@@ -838,7 +842,6 @@ class GFGoUrl extends GFPaymentAddOn {
 		return true;
 	}
 
-
 	//------- AJAX FUNCTIONS ------------------//
 
 	public function init_ajax() {
@@ -861,7 +864,6 @@ class GFGoUrl extends GFPaymentAddOn {
 		add_action( 'gform_payment_transaction_id', array( $this, 'admin_edit_payment_transaction_id' ), 3, 3 );
 		add_action( 'gform_payment_amount', array( $this, 'admin_edit_payment_amount' ), 3, 3 );
 		add_action( 'gform_after_update_entry', array( $this, 'admin_update_payment' ), 4, 2 );
-
 
 	}
 
@@ -948,7 +950,7 @@ class GFGoUrl extends GFPaymentAddOn {
 		if ( $this->payment_details_editing_disabled( $entry, 'update' ) ) {
 			return;
 		}
-        
+
 		//get payment fields to update
 		$payment_status = rgpost( 'payment_status' );
 		//when updating, payment status may not be editable, if no value in post, set to lead payment status
