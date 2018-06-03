@@ -4,7 +4,7 @@ Plugin Name: GoUrl Bitcoin Altcoin Payment Gateway For Gravity Forms
 Plugin URI: https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravity-forms/
 Description: Integrates Gravity Forms with GoUrl Payments, enabling end users to purchase goods and services through Gravity Forms.
 Version: 1.0.0
-Author: wpgateways
+Author: WP Gateways
 Author URI: https://wpgateways.com
 License: GPL-2.0+
 Text Domain: gf-gourl
