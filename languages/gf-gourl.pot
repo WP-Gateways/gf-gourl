@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Gravity Forms GoUrl Add-On\n"
-"POT-Creation-Date: 2018-05-31 17:34+0530\n"
-"PO-Revision-Date: 2018-05-31 17:34+0530\n"
+"Project-Id-Version: GoUrl Bitcoin Altcoin Payment Gateway For Gravity Forms\n"
+"POT-Creation-Date: 2018-06-13 16:03+0530\n"
+"PO-Revision-Date: 2018-06-13 16:03+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -58,87 +58,99 @@ msgid ""
 "website. Please create a new user account for the purspose and select here."
 msgstr ""
 
-#: class-gf-gourl.php:143 class-gf-gourl.php:145
+#: class-gf-gourl.php:121 class-gf-gourl.php:122
+msgid "Exchange Rate Multiplier"
+msgstr ""
+
+#: class-gf-gourl.php:122
+msgid ""
+"Change the live exchange rate multiplier when the transaction is created. "
+"Example: <strong>1.05</strong> - will add an extra 5% to the total price in "
+"bitcoin/altcoins, <strong>0.85</strong> - will be a 15% discount for the "
+"price in bitcoin/altcoins. Default is 1.00 which means no change. "
+msgstr ""
+
+#: class-gf-gourl.php:150 class-gf-gourl.php:152
 msgid "Posts"
 msgstr ""
 
-#: class-gf-gourl.php:145
+#: class-gf-gourl.php:152
 msgid ""
 "Enable this option if you would like to only create the post after payment "
 "has been received."
 msgstr ""
 
-#: class-gf-gourl.php:147
+#: class-gf-gourl.php:154
 msgid "Create post only when payment is received."
 msgstr ""
 
-#: class-gf-gourl.php:167
+#: class-gf-gourl.php:174
 msgid "GoUrl Field"
 msgstr ""
 
-#: class-gf-gourl.php:221
+#: class-gf-gourl.php:228
 msgid ""
 "Send notifications for the 'Form is submitted' event only when payment is "
 "received."
 msgstr ""
 
-#: class-gf-gourl.php:304
+#: class-gf-gourl.php:311
 msgid "Mark Post as Draft"
 msgstr ""
 
-#: class-gf-gourl.php:305
+#: class-gf-gourl.php:312
 msgid "Delete Post"
 msgstr ""
 
-#: class-gf-gourl.php:436
+#: class-gf-gourl.php:443
 #, php-format
 msgid "Amount: %s"
 msgstr ""
 
-#: class-gf-gourl.php:440
+#: class-gf-gourl.php:447
 msgid "Retry Payment"
 msgstr ""
 
-#: class-gf-gourl.php:441
+#: class-gf-gourl.php:448
 msgid "Cancel"
 msgstr ""
 
-#: class-gf-gourl.php:662
+#: class-gf-gourl.php:671
 #, php-format
 msgid "This webhook has already been processed (Event Id: %s)"
 msgstr ""
 
-#: class-gf-gourl.php:784
+#: class-gf-gourl.php:793
 #, php-format
 msgid ""
 "Payment amount (%s) does not match the request. Entry will not be marked as "
 "Approved. Transaction ID: %s"
 msgstr ""
 
-#: class-gf-gourl.php:803
+#: class-gf-gourl.php:812
 #, php-format
 msgid ""
 "Payment is pending. Amount: %s. Converted to: %s. Transaction ID: %s. "
 "Payment Link: %s."
 msgstr ""
 
-#: class-gf-gourl.php:883
+#: class-gf-gourl.php:892
 msgid "Payment Completed"
 msgstr ""
 
-#: class-gf-gourl.php:884
+#: class-gf-gourl.php:893
 msgid "Payment Refunded"
 msgstr ""
 
-#: class-gf-gourl.php:885
+#: class-gf-gourl.php:894
 msgid "Payment Failed"
 msgstr ""
 
-#: class-gf-gourl.php:886
+#: class-gf-gourl.php:895
 msgid "Payment Pending"
 msgstr ""
 
-#: class-gf-gourl.php:1007
+#: class-gf-gourl.php:1016
 #, php-format
 msgid ""
 "Payment information was manually updated. Status: %s. Amount: %s. "
@@ -146,7 +158,7 @@ msgid ""
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "Gravity Forms GoUrl Add-On"
+msgid "GoUrl Bitcoin Altcoin Payment Gateway For Gravity Forms"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -161,7 +173,7 @@ msgid ""
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "wpgateways"
+msgid "WP Gateways"
 msgstr ""
 
 #. Author URI of the plugin/theme

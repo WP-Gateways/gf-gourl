@@ -72,7 +72,7 @@ class GFGoUrl extends GFPaymentAddOn {
 		$users = array();
 
 		foreach( get_users() as $user ) {
-			$users[] = array( 'id' => $user->data->ID, 'label' => $user->data->user_login, 'value' => $user->data->user_login );
+			$users[] = array( 'id' => $user->data->ID, 'label' => $user->data->user_login, 'value' => $user->data->ID );
 		}
 
 		$fields = array(
@@ -115,6 +115,13 @@ class GFGoUrl extends GFPaymentAddOn {
 				'tooltip'       => '<h6>' . esc_html__( 'Default User', 'gf-gourl' ) . '</h6>' . esc_html__( 'GoUrl requires a WordPress user account to be associated with a payment, so this option serves as a fall back if the payer is not logged into the website. Please create a new user account for the purspose and select here.', 'gf-gourl' ),
 				'type'          => 'select',
 				'choices'       => $users,
+			),
+			array(
+				'name'          => 'emultiplier',
+				'label'         => esc_html__( 'Exchange Rate Multiplier', 'gf-gourl' ),
+				'tooltip'       => '<h6>' . esc_html__( 'Exchange Rate Multiplier', 'gf-gourl' ) . '</h6>' . esc_html__( 'Change the live exchange rate multiplier when the transaction is created. Example: <strong>1.05</strong> - will add an extra 5% to the total price in bitcoin/altcoins, <strong>0.85</strong> - will be a 15% discount for the price in bitcoin/altcoins. Default is 1.00 which means no change. ', 'gf-gourl' ),
+				'type'          => 'text',
+				'value'			=> '1.00',
 			),
 		);
 
@@ -465,7 +472,9 @@ class GFGoUrl extends GFPaymentAddOn {
 		$amount = gform_get_meta( $entry['id'], 'payment_amount' );
 		$currency = $entry['currency'];
 		$feed_currency = rgar( $feed['meta'], 'gourlCurrency' );
+		$multiplier = rgar( $feed['meta'], 'emultiplier' );
 		$cryptos = $gourl->coin_names();
+		$amount = $amount * $multiplier;
 		//$amount_converted = convert_currency_live( $entry['currency'], 'BTC', $amount_native );
 		if( array_key_exists( $currency, $cryptos ) ) {
 			$coin = rgar( $cryptos, $currency );
