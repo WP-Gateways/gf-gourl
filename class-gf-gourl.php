@@ -491,9 +491,12 @@ class GFGoUrl extends GFPaymentAddOn {
 		$result = $gourl->cryptopayments( $this->plugin_name, $amount, $currency, $entry['id'], '1 DAY', $lang, $coin, $this->dev_key, $user_id, '60' );
 
 		if( isset( $result['is_paid'] ) && $result['is_paid'] ) {
-            unset( $result["html_payment_box"] );
-			$this->log_debug( __METHOD__ . '(): Payment already received => ' . print_r( $result, true ) );
 			$confirmation = GFFormDisplay::handle_confirmation( $form, $entry, false );
+			if( !is_array( $confirmation ) ) {
+				$confirmation .= $result["html_payment_box"];
+			}
+			unset( $result["html_payment_box"] );
+			$this->log_debug( __METHOD__ . '(): Payment already received => ' . print_r( $result, true ) );
 		} elseif( isset( $result['error'] ) && $result['error'] ) {
 			$this->log_error( __METHOD__ . '(): Error from GoUrl paymentbox => ' . print_r( $result, true ) );
             return new WP_Error( 'gourl_error', $result['error'] );
@@ -545,7 +548,7 @@ class GFGoUrl extends GFPaymentAddOn {
 		// to generically process the callback data
 		$this->log_debug( __METHOD__ . '(): Initializing callback processing for: ' . $this->_slug );
 
-		$callback_action = $this->callback( $user_id, $entry_id, $payment_details, $box_status );
+		$callback_action = $this->gourl_callback( $user_id, $entry_id, $payment_details, $box_status );
 
 		$this->log_debug( __METHOD__ . '(): Result from gateway callback => ' . print_r( $callback_action, true ) );
 
@@ -579,7 +582,7 @@ class GFGoUrl extends GFPaymentAddOn {
 
 	//------- PROCESSING GOURL IPN (Callback) -----------//
 
-	public function callback( $user_id, $entry_id, $payment_details, $box_status ) {
+	public function gourl_callback( $user_id, $entry_id, $payment_details, $box_status ) {
 
 		if ( ! $this->is_gravityforms_supported() ) {
 			return false;
