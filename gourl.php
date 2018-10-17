@@ -3,7 +3,7 @@
 Plugin Name: GoUrl Bitcoin Altcoin Payment Gateway For Gravity Forms
 Plugin URI: https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravity-forms/
 Description: Integrates Gravity Forms with GoUrl Payments, enabling end users to purchase goods and services through Gravity Forms.
-Version: 1.0.1
+Version: 1.0.2
 Author: WP Gateways
 Author URI: https://wpgateways.com
 License: GPL-2.0+
@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 
-define( 'GF_GOURL_VERSION', '1.0.1' );
+define( 'GF_GOURL_VERSION', '1.0.2' );
 
 add_action( 'gform_loaded', array( 'GF_GoUrl_Bootstrap', 'load' ), 5 );
 
@@ -37,13 +37,15 @@ class GF_GoUrl_Bootstrap {
 
 	public static function load() {
 
-		if ( ! method_exists( 'GFForms', 'include_payment_addon_framework' ) ) {
+		global $gourl;
+		if ( ! is_object( $gourl ) || ! method_exists( 'GFForms', 'include_payment_addon_framework' ) ) {
 			return;
 		}
 
 		require_once( 'class-gf-gourl.php' );
 
 		GFAddOn::register( 'GFGoUrl' );
+		add_filter( 'gform_currencies', 'gf_gourl_add_cryptocurrencies', 100 );
 	}
 }
 
@@ -68,7 +70,6 @@ function gf_gourl_add_cryptocurrencies( $currencies ) {
 	}
 	return $currencies;
 }
-add_filter( 'gform_currencies', 'gf_gourl_add_cryptocurrencies', 100 );
 
 function wpgw_gravityforms_gourlcallback( $user_id = 0, $entry_id = '', $payment_details = array(), $box_status = '' ) {
 	gf_gourl()->init_callback( $user_id, $entry_id, $payment_details, $box_status );
