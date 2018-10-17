@@ -6,7 +6,7 @@ Plugin URI: https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravit
 Author URI: https://wpgateways.com
 Requires at least: 4.0
 Tested up to: 5.0
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,12 @@ You are ready to accept crypto payments using the GoUrl payment gateway now conn
 
 
 == Changelog ==
+
+= 1.0.2 =
+
+* Added payment box to the payment confirmation page
+* Fixed fatal error upon activation in case the GoUrl base plugin is missing
+* Fixed notices and a warning
 
 = 1.0.1 =
 
