@@ -13,7 +13,7 @@ class GFGoUrl extends GFPaymentAddOn {
 	protected $_full_path = __FILE__;
 	protected $_url = 'https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravity-forms/';
 	protected $_title = 'Gravity Forms GoUrl Bitcoin Altcoin Add-On';
-	protected $_short_title = 'GoUrl (BTC/Alts)';
+	protected $_short_title = 'GoUrl (Crypto)';
 	protected $_supports_callbacks = false;
 	private $dev_key = 'DEV966GEA58DA77C78DF79G1625442002';
 	private $plugin_name = 'wpgw_gravityforms';

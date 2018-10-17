@@ -37,13 +37,15 @@ class GF_GoUrl_Bootstrap {
 
 	public static function load() {
 
-		if ( ! method_exists( 'GFForms', 'include_payment_addon_framework' ) ) {
+		global $gourl;
+		if ( ! is_object( $gourl ) || ! method_exists( 'GFForms', 'include_payment_addon_framework' ) ) {
 			return;
 		}
 
 		require_once( 'class-gf-gourl.php' );
 
 		GFAddOn::register( 'GFGoUrl' );
+		add_filter( 'gform_currencies', 'gf_gourl_add_cryptocurrencies', 100 );
 	}
 }
 
@@ -68,7 +70,6 @@ function gf_gourl_add_cryptocurrencies( $currencies ) {
 	}
 	return $currencies;
 }
-add_filter( 'gform_currencies', 'gf_gourl_add_cryptocurrencies', 100 );
 
 function wpgw_gravityforms_gourlcallback( $user_id = 0, $entry_id = '', $payment_details = array(), $box_status = '' ) {
 	gf_gourl()->init_callback( $user_id, $entry_id, $payment_details, $box_status );
