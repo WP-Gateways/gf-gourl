@@ -1,12 +1,12 @@
 === GoUrl Bitcoin Altcoin Payment Gateway For Gravity Forms ===
 Contributors: mohsinoffline
-Donate link: https://themebound.com/contact-us/send-payment/
+Donate link: https://wpgateways.com/support/send-payment/
 Tags: Gravity Forms bitcoin, bitcoin, altcoins, cryptocurrency, payment gateway, Gravity Forms, Gravity Forms payment gateway, payment forms, bitcoin cash, dash, litecoin
 Plugin URI: https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravity-forms/
 Author URI: https://wpgateways.com
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,10 @@ You are ready to accept crypto payments using the GoUrl payment gateway now conn
 
 
 == Changelog ==
+
+= 1.0.4 =
+
+* Updated donation link
 
 = 1.0.3 =
 
