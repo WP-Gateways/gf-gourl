@@ -14,7 +14,7 @@ class GFGoUrl extends GFPaymentAddOn {
 	protected $_url = 'https://wpgateways.com/products/gourl-bitcoin-altcoin-gateway-gravity-forms/';
 	protected $_title = 'Gravity Forms GoUrl Bitcoin Altcoin Add-On';
 	protected $_short_title = 'GoUrl (Crypto)';
-	protected $_supports_callbacks = false;
+	protected $_supports_callbacks = true;
 	private $dev_key = 'DEV966GEA58DA77C78DF79G1625442002';
 	private $plugin_name = 'wpgw_gravityforms';
 
@@ -328,7 +328,6 @@ class GFGoUrl extends GFPaymentAddOn {
 		return false;
 	}
 
-
 	//------ SENDING TO GOURL PAYMENTBOX -----------//
 
 	public function redirect_url( $feed, $submission_data, $form, $entry ) {
@@ -491,7 +490,7 @@ class GFGoUrl extends GFPaymentAddOn {
 		$result = $gourl->cryptopayments( $this->plugin_name, $amount, $currency, $entry['id'], '1 DAY', $lang, $coin, $this->dev_key, $user_id, '60' );
 
 		if( isset( $result['is_paid'] ) && $result['is_paid'] ) {
-			$confirmation = GFFormDisplay::handle_confirmation( $form, $entry, false );
+			$confirmation = GFFormDisplay::handle_confirmation( $form, $entry );
 			if( !is_array( $confirmation ) ) {
 				$confirmation .= $result["html_payment_box"];
 			}
@@ -640,9 +639,7 @@ class GFGoUrl extends GFPaymentAddOn {
 			$feed = $this->get_gourl_feed_by_entry( $entry['id'] );
 		}
 
-		$feed = apply_filters( 'gform_gourl_get_payment_feed', $feed, $entry, $form ? $form : GFAPI::get_form( $entry['form_id'] ) );
-
-		return $feed;
+		return apply_filters( 'gform_gourl_get_payment_feed', $feed, $entry, $form ? $form : GFAPI::get_form( $entry['form_id'] ) );
 	}
 
 	private function get_gourl_feed_by_entry( $entry_id ) {
@@ -676,11 +673,11 @@ class GFGoUrl extends GFPaymentAddOn {
 
 		$entry = GFAPI::get_entry( $action['entry_id'] );
 		if ( ! $entry || is_wp_error( $entry ) ) {
-			return $result;
+			return false;
 		}
 
 		/**
-		 * Performs actions before the the payment action callback is processed.
+		 * Performs actions before the payment action callback is processed.
 		 *
 		 * @since Unknown
 		 *
@@ -731,7 +728,7 @@ class GFGoUrl extends GFPaymentAddOn {
 		 *     @type string $transaction_type The transaction type to process this action as. Optional.
 		 *     @type string $payment_status   The payment status to set the payment to. Optional.
 		 *     @type string $note             The note to associate with this payment action. Optional.
-		 * }
+		 *
 		 * @param mixed $result The Result Object.
 		 */
 		do_action( 'gform_post_payment_callback', $entry, $action, $result );
@@ -884,7 +881,7 @@ class GFGoUrl extends GFPaymentAddOn {
 	 *
 	 * @param array $form The form currently being processed.
 	 *
-	 * @return array
+	 * @return array|false
 	 */
 	public function supported_notification_events( $form ) {
 		if ( ! $this->has_feed( $form['id'] ) ) {
@@ -892,10 +889,10 @@ class GFGoUrl extends GFPaymentAddOn {
 		}
 
 		return array(
-				'complete_payment'          => esc_html__( 'Payment Completed', 'gravityformsgourl' ),
-				'refund_payment'            => esc_html__( 'Payment Refunded', 'gravityformsgourl' ),
-				'fail_payment'              => esc_html__( 'Payment Failed', 'gravityformsgourl' ),
-				'add_pending_payment'       => esc_html__( 'Payment Pending', 'gravityformsgourl' ),
+			'complete_payment'          => esc_html__( 'Payment Completed', 'gravityformsgourl' ),
+			'refund_payment'            => esc_html__( 'Payment Refunded', 'gravityformsgourl' ),
+			'fail_payment'              => esc_html__( 'Payment Failed', 'gravityformsgourl' ),
+			'add_pending_payment'       => esc_html__( 'Payment Pending', 'gravityformsgourl' ),
 		);
 	}
 
@@ -924,9 +921,7 @@ class GFGoUrl extends GFPaymentAddOn {
 			$payment_date = gmdate( 'y-m-d H:i:s' );
 		}
 
-		$input = '<input type="text" id="payment_date" name="payment_date" value="' . $payment_date . '">';
-
-		return $input;
+		return '<input type="text" id="payment_date" name="payment_date" value="' . $payment_date . '">';
 	}
 
 	public function admin_edit_payment_transaction_id( $transaction_id, $form, $entry ) {
@@ -934,9 +929,7 @@ class GFGoUrl extends GFPaymentAddOn {
 			return $transaction_id;
 		}
 
-		$input = '<input type="text" id="gourl_transaction_id" name="gourl_transaction_id" value="' . $transaction_id . '">';
-
-		return $input;
+		return '<input type="text" id="gourl_transaction_id" name="gourl_transaction_id" value="' . $transaction_id . '">';
 	}
 
 	public function admin_edit_payment_amount( $payment_amount, $form, $entry ) {
@@ -948,9 +941,7 @@ class GFGoUrl extends GFPaymentAddOn {
 			$payment_amount = GFCommon::get_order_total( $form, $entry );
 		}
 
-		$input = '<input type="text" id="payment_amount" name="payment_amount" class="gform_currency" value="' . $payment_amount . '">';
-
-		return $input;
+		return '<input type="text" id="payment_amount" name="payment_amount" class="gform_currency" value="' . $payment_amount . '">';
 	}
 
 	public function admin_update_payment( $form, $entry_id ) {
